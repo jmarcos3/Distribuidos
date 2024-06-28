@@ -14,7 +14,7 @@ class Watcher:
     def __init__(self):
         self.DIRECTORY_TO_WATCH = os.getcwd()  # Diretório atual
         self.observer = Observer()
-        self.processed_files = set()  # Conjunto para armazenar arquivos processados
+        self.processed_files = set()  # Conjunto para arquivos processados
 
     def run(self):
         event_handler = Handler(self.processed_files)
@@ -63,10 +63,10 @@ class Handler(FileSystemEventHandler):
     def on_deleted(self, event):
         if not event.is_directory:
             file_name = event.src_path
-            if file_name not in self.processed_files:
+            if file_name in self.processed_files:
                 print(f"{file_name} foi deletado.")
                 self.propagate_change(file_name, b'', "Deleted")
-                self.processed_files.add(file_name)  # Adiciona o arquivo ao conjunto de arquivos processados
+                self.processed_files.remove(file_name)  # Remove o arquivo do conjunto de arquivos processados
 
 if __name__ == '__main__':
     print("Monitoramento Online em:", os.getcwd()) 
