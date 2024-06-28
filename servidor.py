@@ -1,5 +1,6 @@
 from xmlrpc.server import SimpleXMLRPCServer
 import os
+from xmlrpc.client import Binary
 
 class FileSyncServer:
     def handle_package(self, file_name, content, action):
@@ -16,14 +17,14 @@ class FileSyncServer:
             return False
 
     def create_file(self, file_name, content):
-        with open(file_name, 'wb') as f:  # Abre o arquivo no modo binário 'wb'
-            f.write(content)
+        with open(file_name, 'wb') as f:
+            f.write(content.data if isinstance(content, Binary) else content)
         print(f"{file_name} foi criado com sucesso.")
 
     def modify_file(self, file_name, content):
         if os.path.exists(file_name):
-            with open(file_name, 'wb') as f:  # Abre o arquivo no modo binário 'wb'
-                f.write(content)
+            with open(file_name, 'wb') as f:
+                f.write(content.data if isinstance(content, Binary) else content)
             print(f"{file_name} foi modificado com sucesso.")
         else:
             print(f"Erro ao modificar {file_name}: Arquivo não encontrado.")
