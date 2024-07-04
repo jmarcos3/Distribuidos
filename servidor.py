@@ -43,7 +43,7 @@ class FileSyncServer:
             print(f"Erro ao deletar {file_name}: Arquivo não encontrado.")
 
 def run_server(port):
-    server = SimpleXMLRPCServer(('localhost', port)) # Mudar o local host para o endereço da máquina
+    server = SimpleXMLRPCServer(('localhost', port)) # MUDAR o local host para o endereço da máquina
     server.register_instance(FileSyncServer())
     print(f"Servidor RPC está rodando na porta {port}...")
     server.serve_forever()
